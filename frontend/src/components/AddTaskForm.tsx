@@ -1,6 +1,21 @@
 import { useState } from "react";
 import type { CreateTaskInput } from "../types/task";
 
+import {
+  Box,
+  Button,
+  Typography,
+  IconButton,
+  TextField,
+  Paper,
+  Alert,
+  Chip,
+  Tooltip,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+
 interface TaskRow {
   id: number;
   text: string;
@@ -16,17 +31,6 @@ interface Props {
 let rc = 0;
 const newRow = (): TaskRow => ({ id: ++rc, text: "", date: "", time: "" });
 
-const XIcon = () => (
-  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-    <path
-      d="M1 1l8 8M9 1L1 9"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
 export default function AddTaskForm({ onAdd, error }: Props) {
   const [rows, setRows] = useState<TaskRow[]>([newRow()]);
   const [loading, setLoading] = useState(false);
@@ -37,11 +41,11 @@ export default function AddTaskForm({ onAdd, error }: Props) {
   const setField = (
     id: number,
     field: keyof Omit<TaskRow, "id">,
-    val: string,
+    val: string
   ) =>
     setRows((prev) => {
       const updated = prev.map((r) =>
-        r.id === id ? { ...r, [field]: val } : r,
+        r.id === id ? { ...r, [field]: val } : r
       );
       setDuplicateIds(findDuplicateIds(updated));
       setMissingIds((prev) => {
@@ -97,7 +101,7 @@ export default function AddTaskForm({ onAdd, error }: Props) {
       setValidationError(
         missingDateTime.length === 1
           ? "Please add a date and time for the task."
-          : `${missingDateTime.length} tasks are missing a date or time.`,
+          : `${missingDateTime.length} tasks are missing a date or time.`
       );
       return;
     }
@@ -120,7 +124,7 @@ export default function AddTaskForm({ onAdd, error }: Props) {
           date: r.date,
           time: r.time,
           completed: false,
-        })),
+        }))
       );
       setRows([newRow()]);
     } finally {
@@ -132,49 +136,82 @@ export default function AddTaskForm({ onAdd, error }: Props) {
   const isMulti = rows.length > 1;
   const filledCount = rows.filter((r) => r.text.trim()).length;
 
-  const inputCls =
-    "bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all";
-
-  const errorCls =
-    "bg-red-50 border border-red-300 rounded-xl px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-red-400 focus:ring-2 focus:ring-red-100 transition-all";
-
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-5 mb-4 shadow-sm">
-      <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-4">
-        New Task{isMulti ? "s" : ""}
-      </p>
-
-      {/* Column headers */}
-      <div
-        className={`grid gap-3 mb-2 px-0.5 ${isMulti ? "grid-cols-[1fr_160px_130px_28px]" : "grid-cols-[1fr_160px_130px]"}`}
+    <Paper
+      elevation={0}
+      variant="outlined"
+      sx={{
+        borderRadius: 3,
+        p: 3,
+        mb: 2,
+        borderColor: "grey.200",
+      }}
+    >
+      {/* Header */}
+      <Typography
+        variant="overline"
+        sx={{
+          fontWeight: 700,
+          letterSpacing: 2,
+          color: "text.secondary",
+          display: "block",
+          mb: 2,
+        }}
       >
-        <span className="text-[10px] tracking-widest text-gray-400 uppercase font-semibold">
-          Description
-        </span>
-        <span className="text-[10px] tracking-widest text-gray-400 uppercase font-semibold">
-          Date
-        </span>
-        <span className="text-[10px] tracking-widest text-gray-400 uppercase font-semibold">
-          Time
-        </span>
-        {isMulti && <span />}
-      </div>
+        New Task{isMulti ? "s" : ""}
+      </Typography>
 
-      {/* Rows */}
-      <div className="flex flex-col gap-2 mb-3">
+      {/* Column Headers */}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: isMulti
+            ? "1fr 160px 140px 40px"
+            : "1fr 160px 140px",
+          gap: 1.5,
+          mb: 1,
+          px: 0.5,
+        }}
+      >
+        {["Description", "Date", "Time"].map((label) => (
+          <Typography
+            key={label}
+            variant="overline"
+            sx={{
+              fontSize: "0.6rem",
+              fontWeight: 700,
+              letterSpacing: 1.5,
+              color: "text.disabled",
+            }}
+          >
+            {label}
+          </Typography>
+        ))}
+        {isMulti && <Box />}
+      </Box>
+
+      {/* Task Rows */}
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5, mb: 1.5 }}>
         {rows.map((row) => {
           const isDupe = duplicateIds.has(row.id);
           const isMissing = missingIds.has(row.id);
-          const isError = isDupe || isMissing;
-          const rowInputCls = isError ? errorCls : inputCls;
+          const isRowError = isDupe || isMissing;
 
           return (
-            <div key={row.id} className="relative">
-              <div
-                className={`grid gap-3 items-center ${isMulti ? "grid-cols-[1fr_160px_130px_28px]" : "grid-cols-[1fr_160px_130px]"}`}
+            <Box key={row.id}>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: isMulti
+                    ? "1fr 160px 140px 40px"
+                    : "1fr 160px 140px",
+                  gap: 1.5,
+                  alignItems: "flex-start",
+                }}
               >
-                <input
-                  className={rowInputCls + " w-full"}
+                {/* Description */}
+                <TextField
+                  size="small"
                   placeholder="Enter Your Task"
                   value={row.text}
                   onChange={(e) => {
@@ -185,8 +222,14 @@ export default function AddTaskForm({ onAdd, error }: Props) {
                     if (e.key === "Enter") addRow();
                   }}
                   disabled={loading}
+                  error={isRowError}
+                  fullWidth
+                  sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
                 />
-                <input
+
+                {/* Date */}
+                <TextField
+                  size="small"
                   type="date"
                   value={row.date}
                   onChange={(e) => {
@@ -194,9 +237,15 @@ export default function AddTaskForm({ onAdd, error }: Props) {
                     if (validationError) setValidationError(null);
                   }}
                   disabled={loading}
-                  className={`${isMissing && !row.date ? errorCls : inputCls} w-full`}
+                  error={isMissing && !row.date}
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
                 />
-                <input
+
+                {/* Time */}
+                <TextField
+                  size="small"
                   type="time"
                   value={row.time}
                   onChange={(e) => {
@@ -204,74 +253,134 @@ export default function AddTaskForm({ onAdd, error }: Props) {
                     if (validationError) setValidationError(null);
                   }}
                   disabled={loading}
-                  className={`${isMissing && !row.time ? errorCls : inputCls} w-full`}
+                  error={isMissing && !row.time}
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
                 />
-                {isMulti && (
-                  <button
-                    onClick={() => removeRow(row.id)}
-                    disabled={rows.length === 1 || loading}
-                    className="w-7 h-7 flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 disabled:opacity-20 transition-all rounded-lg"
-                  >
-                    <XIcon />
-                  </button>
-                )}
-              </div>
 
-              {/* Per-row inline warning */}
+                {/* Remove Row Button */}
+                {isMulti && (
+                  <Tooltip title="Remove row">
+                    <span>
+                      <IconButton
+                        size="small"
+                        onClick={() => removeRow(row.id)}
+                        disabled={rows.length === 1 || loading}
+                        color="default"
+                        sx={{
+                          mt: 0.25,
+                          borderRadius: 1.5,
+                          "&:hover": {
+                            color: "error.main",
+                            bgcolor: "error.50",
+                          },
+                        }}
+                      >
+                        <CloseIcon fontSize="small" />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                )}
+              </Box>
+
+              {/* Per-row inline error messages */}
               {isDupe && (
-                <p className="text-[11px] text-red-500 mt-1 ml-1">
+                <Typography
+                  variant="caption"
+                  color="error"
+                  sx={{ mt: 0.5, ml: 0.5, display: "block" }}
+                >
                   Duplicate: same description + time as another row.
-                </p>
+                </Typography>
               )}
               {isMissing && (
-                <p className="text-[11px] text-red-500 mt-1 ml-1">
+                <Typography
+                  variant="caption"
+                  color="error"
+                  sx={{ mt: 0.5, ml: 0.5, display: "block" }}
+                >
                   {!row.date && !row.time
                     ? "Date and time are required."
                     : !row.date
-                      ? "Date is required."
-                      : "Time is required."}
-                </p>
+                    ? "Date is required."
+                    : "Time is required."}
+                </Typography>
               )}
-            </div>
+            </Box>
           );
         })}
-      </div>
+      </Box>
 
-      {/* Add another row */}
-      <button
+      {/* Add Another Row */}
+      <Button
+        size="small"
+        startIcon={<AddIcon />}
         onClick={addRow}
         disabled={loading}
-        className="text-xs text-gray-400 hover:text-indigo-600 transition-colors mb-3 flex items-center gap-1 font-medium"
+        sx={{
+          mb: 2,
+          color: "text.secondary",
+          textTransform: "none",
+          fontWeight: 500,
+          fontSize: "0.75rem",
+          "&:hover": { color: "primary.main", bgcolor: "transparent" },
+        }}
+        disableRipple
       >
-        <span className="text-sm leading-none">+</span> Add another task
-      </button>
+        Add another task
+      </Button>
 
+      {/* Validation / Server Error */}
       {displayError && (
-        <p className="text-xs text-red-500 bg-red-50 border border-red-200 rounded-lg px-3 py-2 mb-3">
+        <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>
           {displayError}
-        </p>
+        </Alert>
       )}
 
-      <div className="flex items-center justify-between">
+      {/* Footer: count chip + submit button */}
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         {isMulti ? (
-          <span className="text-xs text-gray-400">
-            {filledCount} of {rows.length} filled
-          </span>
+          <Chip
+            label={`${filledCount} of ${rows.length} filled`}
+            size="small"
+            variant="outlined"
+            sx={{ fontSize: "0.7rem", color: "text.secondary", borderColor: "grey.300" }}
+          />
         ) : (
-          <span />
+          <Box />
         )}
-        <button
+
+        <Button
+          variant="contained"
+          startIcon={<PlaylistAddIcon />}
           onClick={handleAdd}
           disabled={loading || filledCount === 0 || duplicateIds.size > 0}
-          className="bg-indigo-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-indigo-700 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+          disableElevation
+          sx={{
+            borderRadius: 2.5,
+            px: 3,
+            py: 1,
+            textTransform: "none",
+            fontWeight: 600,
+            fontSize: "0.875rem",
+            bgcolor: "indigo.600",
+            background: "linear-gradient(135deg, #4f46e5, #6366f1)",
+            "&:hover": {
+              background: "linear-gradient(135deg, #4338ca, #4f46e5)",
+            },
+            "&:disabled": {
+              opacity: 0.5,
+            },
+          }}
         >
           {loading
             ? "Adding…"
             : isMulti
-              ? `+ Add ${filledCount} Task${filledCount !== 1 ? "s" : ""}`
-              : "+ Add Task"}
-        </button>
-      </div>
-    </div>
+            ? `Add ${filledCount} Task${filledCount !== 1 ? "s" : ""}`
+            : "Add Task"}
+        </Button>
+      </Box>
+    </Paper>
   );
 }
