@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["jest", "node"],
     "target": "ES2020",
     "module": "CommonJS",
     "lib": ["ES2020"],
@@ -11,6 +12,6 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["./**/*.ts"],
+  "include": ["./**/*.ts", "jest.config.js"],
   "exclude": ["node_modules", "dist"]
 }

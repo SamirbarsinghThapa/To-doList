@@ -41,11 +41,11 @@ export default function AddTaskForm({ onAdd, error }: Props) {
   const setField = (
     id: number,
     field: keyof Omit<TaskRow, "id">,
-    val: string
+    val: string,
   ) =>
     setRows((prev) => {
       const updated = prev.map((r) =>
-        r.id === id ? { ...r, [field]: val } : r
+        r.id === id ? { ...r, [field]: val } : r,
       );
       setDuplicateIds(findDuplicateIds(updated));
       setMissingIds((prev) => {
@@ -101,7 +101,7 @@ export default function AddTaskForm({ onAdd, error }: Props) {
       setValidationError(
         missingDateTime.length === 1
           ? "Please add a date and time for the task."
-          : `${missingDateTime.length} tasks are missing a date or time.`
+          : `${missingDateTime.length} tasks are missing a date or time.`,
       );
       return;
     }
@@ -124,7 +124,7 @@ export default function AddTaskForm({ onAdd, error }: Props) {
           date: r.date,
           time: r.time,
           completed: false,
-        }))
+        })),
       );
       setRows([newRow()]);
     } finally {
@@ -239,7 +239,7 @@ export default function AddTaskForm({ onAdd, error }: Props) {
                   disabled={loading}
                   error={isMissing && !row.date}
                   fullWidth
-                  InputLabelProps={{ shrink: true }}
+                  slotProps={{ inputLabel: { shrink: true } }}
                   sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
                 />
 
@@ -255,7 +255,7 @@ export default function AddTaskForm({ onAdd, error }: Props) {
                   disabled={loading}
                   error={isMissing && !row.time}
                   fullWidth
-                  InputLabelProps={{ shrink: true }}
+                  slotProps={{ inputLabel: { shrink: true } }}
                   sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
                 />
 
@@ -303,8 +303,8 @@ export default function AddTaskForm({ onAdd, error }: Props) {
                   {!row.date && !row.time
                     ? "Date and time are required."
                     : !row.date
-                    ? "Date is required."
-                    : "Time is required."}
+                      ? "Date is required."
+                      : "Time is required."}
                 </Typography>
               )}
             </Box>
@@ -339,13 +339,23 @@ export default function AddTaskForm({ onAdd, error }: Props) {
       )}
 
       {/* Footer: count chip + submit button */}
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         {isMulti ? (
           <Chip
             label={`${filledCount} of ${rows.length} filled`}
             size="small"
             variant="outlined"
-            sx={{ fontSize: "0.7rem", color: "text.secondary", borderColor: "grey.300" }}
+            sx={{
+              fontSize: "0.7rem",
+              color: "text.secondary",
+              borderColor: "grey.300",
+            }}
           />
         ) : (
           <Box />
@@ -377,8 +387,8 @@ export default function AddTaskForm({ onAdd, error }: Props) {
           {loading
             ? "Adding…"
             : isMulti
-            ? `Add ${filledCount} Task${filledCount !== 1 ? "s" : ""}`
-            : "Add Task"}
+              ? `Add ${filledCount} Task${filledCount !== 1 ? "s" : ""}`
+              : "Add Task"}
         </Button>
       </Box>
     </Paper>
