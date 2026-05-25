@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { CreateTaskInput } from "../types/task";
+import type { CreateTaskInput } from "../../types/task";
 
 import {
   Box,
@@ -16,17 +16,17 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 
-interface TaskRow {
+type TaskRow = {
   id: number;
   text: string;
   date: string;
   time: string;
-}
+};
 
-interface Props {
+type Props = {
   onAdd: (tasks: CreateTaskInput[]) => Promise<void>;
   error?: string | null;
-}
+};
 
 let rc = 0;
 const newRow = (): TaskRow => ({ id: ++rc, text: "", date: "", time: "" });

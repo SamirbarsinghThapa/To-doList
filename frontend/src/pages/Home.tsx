@@ -2,8 +2,8 @@ import { useState } from "react";
 import type { ITask } from "../types/task";
 import { getTaskById } from "../api/taskApi";
 import { useTasks, useTaskActions } from "../hooks/useTasks";
-import AddTaskForm from "../components/AddTaskForm";
-import TaskList from "../components/TaskList";
+import AddTaskForm from "../components/tasks/AddTaskForm";
+import TaskList from "../components/tasks/TaskList";
 
 export default function Home() {
   const { data: tasks = [], isLoading, isError } = useTasks();

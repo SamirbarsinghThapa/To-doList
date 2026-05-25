@@ -1,0 +1,75 @@
+﻿[
+  {
+    "menuItems": [      
+      {
+        "title": "Dashboard",
+        "externalLink": "#",
+        "iconName": "dashboard",
+        "children": [
+          {
+            "title": "Webtop n°1",
+            "routerLink": ["/dashboard", "1"],
+            "externalLink": ""
+          },
+          {
+            "title": "Webtop n°2",
+            "routerLink": ["/dashboard", "2"],
+            "externalLink": ""
+          }
+        ]
+      },
+      {
+        "title": "Store",
+        "externalLink": "#",
+        "iconName": "store_mall_directory",
+        "children": [
+          {
+            "title": "Administration",
+            "externalLink": "/CloudFactoryStore/Servman"
+          }
+        ]
+      },
+      {
+        "title": "Data Aggregation",
+        "externalLink": "#",
+        "iconName": "cloud",
+        "children": [
+          {
+            "title": "My Home",
+            "routerLink": ["/dataaggregation"],
+            "externalLink": ""
+          },
+          {
+            "title": "My OneDrive",
+            "externalLink": "#"
+          }
+        ]
+      },
+      {
+        "title": "Calendar",
+        "externalLink": "#",
+        "iconName": "event"
+      },
+      {
+        "title": "Mail",
+        "externalLink": "#",
+        "iconName": "mail",
+        "children": [
+          {
+            "title": "Inbox",
+            "externalLink": "#"
+          },
+          {
+            "title": "Compose",
+            "externalLink": "#"
+          }
+        ]
+      },
+      {
+        "title": "Documentation",
+        "externalLink": "#",
+        "iconName": "import_contacts"
+      }
+    ]
+  }
+]

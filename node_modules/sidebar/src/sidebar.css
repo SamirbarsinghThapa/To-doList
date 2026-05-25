@@ -1,0 +1,160 @@
+﻿
+aside {
+    display: block
+}
+
+#sidebar {
+    width: 45px;
+    position: fixed;
+    z-index: 900;
+    top: 41px;
+    left: 0;
+    bottom: 0;
+    color: #f8f8f8;    
+}
+#sidebar a {
+    cursor: pointer
+}
+
+#sidebar div.side-menu {
+    width: 45px;
+    background: #888;
+    position: absolute;
+    top: 0;
+    bottom: 0;    
+    float: left;
+}
+
+#sidebar div.side-menu .menu-body {
+    width: 45px;   
+}
+#sidebar div.side-menu .menu-body ul.menu-items {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 5px;
+}
+#sidebar div.side-menu .menu-body ul.menu-items > li {
+    height: 44px;
+}
+#sidebar div.side-menu .menu-body ul.menu-items li > a {
+    color: #eee;
+    border-radius: 0;
+    padding: 18px 14px 11px 13px;
+}
+#sidebar div.side-menu .menu-body ul.menu-items li a > i {
+    font-size: 18px;
+}
+
+#sidebar div.side-menu .menu-body ul.menu-items li a:active,
+#sidebar div.side-menu .menu-body ul.menu-items li a:focus,
+#sidebar div.side-menu .menu-body ul.menu-items li a:hover {
+    background: #666;
+    color: #fff;
+}
+#sidebar div.side-menu .menu-body ul.menu-items li .router-link-active {
+    background: #484848;
+}
+#sidebar div.side-menu .menu-body ul.menu-items li ul.menu-subitems {
+    display: none;
+    list-style: none;
+    position: relative;
+    top: -38px;
+    left: 45px;
+    background: #666;
+    color: #f8f8f8;
+    padding-left: 0;
+    width: 190px;
+    min-height: 40px;
+    margin-top: 2px;
+}
+#sidebar div.side-menu .menu-body ul.menu-items li ul.menu-subitems li {
+    min-height: 24px;
+    color: #888
+}
+#sidebar div.side-menu .menu-body ul.menu-items li ul.menu-subitems li a {
+    color: #f8f8f8;
+    display: block;
+    padding: 12px;
+    height: auto;
+    font-size: 14px
+}
+#sidebar div.side-menu .menu-body ul.menu-items li ul.menu-subitems li a:active,
+#sidebar div.side-menu .menu-body ul.menu-items li ul.menu-subitems li a:focus,
+#sidebar div.side-menu .menu-body ul.menu-items li ul.menu-subitems li a:hover {
+    color: #fff;
+    background: #555;
+    text-decoration: none;
+    padding-bottom: 12px;
+}
+#sidebar div.side-menu .menu-body ul.menu-items li ul.menu-subitems li.menu-header {
+    text-transform: uppercase;
+    min-height: 45px;
+    padding-top: 12px;
+    padding-left: 12px;
+    border-bottom: 1px solid #555;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 21px;
+    color: #eee
+}
+#sidebar div.side-menu .menu-body ul.menu-items li ul.menu-subitems li.menu-header a {
+    color: #f8f8f8
+}
+#sidebar div.side-menu .menu-body ul.menu-items li:hover ul.menu-subitems {
+    display: block;
+}
+
+
+/* SPINNER */
+
+.spinner {
+    width: 100px;
+    height: 100px;
+    background-color: #2c3e50;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    -webkit-animation: e 1.2s infinite ease-in-out;
+    animation: e 1.2s infinite ease-in-out
+}
+@-webkit-keyframes e {
+    0% {
+        -webkit-transform: perspective(120px)
+    }
+    50% {
+        -webkit-transform: perspective(120px) rotateY(180deg)
+    }
+    to {
+        -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+    }
+}
+@keyframes e {
+    0% {
+        transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+    }
+    50% {
+        transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+        -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+    }
+    to {
+        transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+        -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg)
+    }
+}
+.animate {
+    -webkit-animation: f .456s 1 ease;
+    -moz-animation: f .456s 1 ease;
+    -o-animation: f .456s 1 ease
+}
+@-webkit-keyframes f {
+    0% {
+        -webkit-transform: rotate(0deg) scale(.955) skew(0deg) translate(0)
+    }
+    to {
+        -webkit-transform: rotate(0deg) scale(1) skew(0deg) translate(0)
+    }
+}

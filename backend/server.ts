@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import taskRoutes from "./routes/taskRoutes";
-
+import marketRoutes from "./routes/marketRoutes";
 const app: Application = express();
 
 app.use(cors());
@@ -11,6 +11,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/tasks", taskRoutes);
+
+app.use("/markets", marketRoutes);
 
 export default app;
 

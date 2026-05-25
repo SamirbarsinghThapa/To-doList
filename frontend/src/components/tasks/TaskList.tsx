@@ -1,4 +1,4 @@
-import type { ITask } from "../types/task";
+import type { ITask } from "../../types/task";
 import TaskDetail from "./TaskDetail";
 
 function formatDate(dateStr: string): string {
@@ -7,7 +7,7 @@ function formatDate(dateStr: string): string {
   return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
-interface TaskListProps {
+type TaskListProps = {
   tasks: ITask[];
   selectedTask: ITask | null;
   onSelect: (id: string) => void;

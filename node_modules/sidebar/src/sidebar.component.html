@@ -1,0 +1,19 @@
+﻿<aside id="sidebar" *ngIf="model">
+    <div class="side-menu">
+        <div class="menu-body">            
+            <ul class="menu-items" style="padding-top: 10px;">        
+                <li *ngFor="let menuItem of model.menuItems;let i = index">                    
+                    <a href="{{menuItem.externalLink}}" [routerLink]="menuItem.routerLink">
+                        <i class="material-icons">{{menuItem.iconName}}</i>                        
+                    </a>
+                    <ul *ngIf="menuItem.children" class="menu-subitems">
+                        <li class="menu-header">{{menuItem.title}}</li>
+                        <li *ngFor="let submenu of menuItem.children;let j = index">
+                            <a href="{{submenu.externalLink}}" [routerLink]="submenu.routerLink" routerLinkActive="active">{{submenu.title}}</a>
+                        </li>                  
+                    </ul>
+                </li>                
+            </ul>
+        </div>
+    </div>
+</aside>
