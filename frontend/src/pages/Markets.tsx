@@ -21,19 +21,8 @@ const queryParams = useMemo(() => ({
   order: sort,
 }), [filter, sort, page]);
 
-  const { data: events = [], isLoading, isError, refetch } = useMarkets(queryParams);
-
-  const filtered = useMemo(() => {
-    if (!search.trim()) return events;
-    const q = search.toLowerCase();
-    return events.filter(
-      (e) =>
-        e.title?.toLowerCase().includes(q) ||
-        e.description?.toLowerCase().includes(q) ||
-        e.tags?.some((t) => t.label.toLowerCase().includes(q))
-    );
-  }, [events, search]);
-
+  const { data: events=[], isLoading, isError, refetch } = useMarkets(queryParams);
+  const filtered = events
   const handleFilterChange = (f: FilterType) => {
     setFilter(f);
     setPage(0);

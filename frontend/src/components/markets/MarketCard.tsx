@@ -1,30 +1,17 @@
 import type { PolymarketEvent } from "../../types/market";
-
-function formatVolume(v: number): string {
-  if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(1)}M`;
-  if (v >= 1_000) return `$${(v / 1_000).toFixed(0)}K`;
-  return `$${v.toFixed(0)}`;
-}
-
-function formatDate(dateStr: string): string {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
-}
-
 type Props = {
   event: PolymarketEvent;
 };
 
 export default function MarketCard({ event }: Props) {
-  // Parse first market's outcomes/prices if available
   let outcomes: string[] = [];
   let prices: number[] = [];
   if (event.markets?.[0]) {
     try {
       outcomes = JSON.parse(event.markets[0].outcomes ?? "[]");
       prices = JSON.parse(event.markets[0].outcomePrices ?? "[]").map(Number);
-    } catch (_e) {
+    } catch (e) {
+      console.error(`[markets] failed to parse market data for ${event.slug}:`, e);
       outcomes = [];
       prices = [];
     }
@@ -121,7 +108,6 @@ export default function MarketCard({ event }: Props) {
           <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
             <path d="M1 9V5M4 9V3M7 9V6M10 9V1" stroke="#9ca3af" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
-          <span className="text-xs text-gray-400">{formatVolume(event.volume ?? 0)}</span>
         </div>
         {event.endDate && (
           <div className="flex items-center gap-1">
@@ -129,7 +115,6 @@ export default function MarketCard({ event }: Props) {
               <rect x="1" y="2" width="9" height="8" rx="1.5" stroke="#9ca3af" strokeWidth="1.3" />
               <path d="M1 5h9M4 1v2M7 1v2" stroke="#9ca3af" strokeWidth="1.3" strokeLinecap="round" />
             </svg>
-            <span className="text-xs text-gray-400">{formatDate(event.endDate)}</span>
           </div>
         )}
         <div className="ml-auto flex items-center gap-1">

@@ -25,5 +25,6 @@ export const fetchPolymarketEvents = async (
 
   const res = await fetch(`${POLYMARKET_BASE}/events?${query.toString()}`);
   if (!res.ok) throw new Error(`API error ${res.status}`);
-  return res.json();
+  const response = await res.json();
+  return response.data
 };
